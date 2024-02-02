@@ -1,9 +1,9 @@
-
-import { Link } from "react-router-dom";
+// PokemonCard.jsx
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const PokemonCard = ({ url, sortBy, sortOrder }) => {
+const PokemonCard = ({ url }) => {
   const StatPokemon = ({ infoStat }) => {
     return (
       <li className='pokestat'>
@@ -14,6 +14,10 @@ const PokemonCard = ({ url, sortBy, sortOrder }) => {
   };
 
   const [pokemon, setPokemon] = useState({});
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const sortBy = queryParams.get("sortBy");
+  const sortOrder = queryParams.get("sortOrder");
 
   useEffect(() => {
     axios.get(url).then((res) => setPokemon(res.data));
@@ -21,10 +25,11 @@ const PokemonCard = ({ url, sortBy, sortOrder }) => {
 
   return (
     <Link
-      to={`/pokedex/${pokemon.id}?sortBy=${sortBy}&sortOrder=${sortOrder}`}
+      to={{
+        pathname: `/pokedex/${pokemon.id}`,
+        search: `?sortBy=${sortBy}&sortOrder=${sortOrder}`,
+      }}
       key={pokemon.id}
-      sortBy={sortBy}
-      sortOrder={sortOrder}
     >
       <article className="card" key={pokemon.id}>
         <header className='header'>

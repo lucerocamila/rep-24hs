@@ -1,39 +1,42 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 import "../App.css";
 
 const Pokedex = () => {
   const userName = useSelector((state) => state.name);
   const [pokemonList, setPokemonList] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [pokemonTypes, setPokemonTypes] = useState([]);
-  const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100&order=id&sort=${sortOrder}`)
-      .then((res) => setPokemonList(res.data.results));
+      .then((res) => {
+        setPokemonList(res.data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, [sortOrder]);
 
-  useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/type/")
-      .then((res) => setPokemonTypes(res.data.results));
-  }, []);
+  const handleSortOrderChange = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
 
-
-  const handleSortOrderChange = (value) => {
-    setSortOrder(value);
+  const sortPokemonList = (list, order) => {
+    return list.slice().sort((a, b) => {
+      const idA = a.url.split("/").reverse()[1];
+      const idB = b.url.split("/").reverse()[1];
+      return order === "asc" ? idA - idB : idB - idA;
+    });
   };
 
   const [page, setPage] = useState(1);
   const pokemonsPerPage = 10;
   const lastIndex = page * pokemonsPerPage;
   const firstIndex = lastIndex - pokemonsPerPage;
-  const pokemonPaginated = pokemonList.slice(firstIndex, lastIndex);
+  const pokemonPaginated = sortPokemonList(pokemonList, sortOrder).slice(firstIndex, lastIndex);
   const totalPages = Math.ceil(pokemonList?.length / pokemonsPerPage);
   const numbers = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -41,18 +44,16 @@ const Pokedex = () => {
   }
 
   return (
-    <div className='App'>
-      <h1 className='title'>Hi {userName}! <br /> Choose your pokemon</h1>
+    <div className="App">
+      <h1 className="title">
+        Hi {userName}! <br /> Choose your Pokemon
+      </h1>
 
-
-      <p className='keep'>go go go!</p>
+      <p className="keep">go go go!</p>
 
       <div className="sort-options">
         <label>Order:</label>
-        <select onChange={(e) => handleSortOrderChange(e.target.value)} value={sortOrder}>
-          <option value='asc'>Asc</option>
-          <option value='desc'>Desc</option>
-        </select>
+        <button onClick={handleSortOrderChange}>{sortOrder === "asc" ? "Asc" : "Desc"}</button>
       </div>
 
       <div className="pagination">
@@ -64,10 +65,7 @@ const Pokedex = () => {
             {number}
           </button>
         ))}
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-        >
+        <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
           Next pag
         </button>
       </div>
