@@ -46,15 +46,17 @@ const Pokedex = () => {
   return (
     <div className="App">
       <h1 className="title">
-        Hi {userName}! <br /> Choose your Pokemon
+        Hi player! <br /> Choose your Pokemon
       </h1>
 
       <p className="keep">go go go!</p>
 
-      <div className="sort-options">
-        <label>Order:</label>
-        <button onClick={handleSortOrderChange}>{sortOrder === "asc" ? "Asc" : "Desc"}</button>
-      </div>
+     <div className="sort-options">
+      <p className="sort-label">Order by ID:</p>
+      <button className="sort-button" onClick={handleSortOrderChange}>
+        {sortOrder === "asc" ? "Asc" : "Desc"}
+      </button>
+     </div>
 
       <div className="pagination">
         <button onClick={() => setPage(page - 1)} disabled={page === 1}>
