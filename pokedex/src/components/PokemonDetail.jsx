@@ -37,6 +37,8 @@ const PokemonDetail = () => {
         </ul>
       </div>
     <ul className='display-stats-container'>
+    <p className= 'display-stats' > <b>Weight :</b> {pokemon?.weight/10}KG</p>
+      <p className= 'display-stats' > <b>Height :</b> {pokemon?.height/10}M</p>
           {
             pokemon.stats?.map(stat => (
               <li key={stat.stat.url} className='display-stats'>
@@ -45,6 +47,8 @@ const PokemonDetail = () => {
             ))        
 
           }            
+      
+
 
         </ul>
     </div>
