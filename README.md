@@ -4,7 +4,6 @@
 Este es un proyecto de Pokédex desarrollado con # React JS + Vite
 ## Dependencias
 
-- **[@reduxjs/toolkit](https://redux-toolkit.js.org/):** Utilizado para la gestión del estado en la aplicación.
 - **[axios](https://axios-http.com/):** Cliente HTTP basado en Promesas para realizar peticiones a la API.
 - **[react](https://reactjs.org/):** Biblioteca principal para construir interfaces de usuario.
 - **[react-dom](https://reactjs.org/docs/react-dom.html):** Paquete específico de React para el DOM.
