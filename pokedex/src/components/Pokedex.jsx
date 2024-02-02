@@ -1,11 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard";
 import "../App.css";
 
 const Pokedex = () => {
-  const userName = useSelector((state) => state.name);
   const [pokemonList, setPokemonList] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
 
@@ -24,13 +22,18 @@ const Pokedex = () => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
 
-  const sortPokemonList = (list, order) => {
-    return list.slice().sort((a, b) => {
-      const idA = a.url.split("/").reverse()[1];
-      const idB = b.url.split("/").reverse()[1];
-      return order === "asc" ? idA - idB : idB - idA;
-    });
-  };
+// Función para ordenar la lista de Pokemon según el orden y la dirección especificados para la prueba tecnica
+const sortPokemonList = (list, order) => {
+  return list.slice().sort((a, b) => {
+    //aqui obtengo los IDs de Pokemon de las URL y realizo la comparación
+    const idA = a.url.split("/").reverse()[1]; // ID del primer Pokemon
+    const idB = b.url.split("/").reverse()[1]; //  ID del segundo Pokemon
+
+    // aca se determina el orden ascendente o descendente según la dirección especificada
+    return order === "asc" ? idA - idB : idB - idA;
+  });
+};
+
 
   const [page, setPage] = useState(1);
   const pokemonsPerPage = 10;

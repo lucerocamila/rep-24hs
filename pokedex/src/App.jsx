@@ -10,8 +10,6 @@ function App() {
       <Routes>
           <Route path="/" element={<Pokedex />} />
          <Route path="/pokedex/:id" element={<PokemonDetail />} /> {/* para el id dinamico */}
-      
-
       </Routes>
     </HashRouter>
   );
