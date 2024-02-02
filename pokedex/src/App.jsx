@@ -1,17 +1,17 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+// App.jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PokemonDetail from "./components/PokemonDetail";
 import Pokedex from "./components/Pokedex";
-
 import "./App.css";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
-          <Route path="/" element={<Pokedex />} />
-         <Route path="/pokedex/:id" element={<PokemonDetail />} /> {/* para el id dinamico */}
+        <Route path="/" element={<Pokedex />} />
+        <Route path="/pokedex/:id" element={<PokemonDetail />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
